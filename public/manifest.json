@@ -1,0 +1,13 @@
+{
+  "short_name": "intent-dash",
+  "name": "intent-wakeword-dashboard",
+  "icons": [
+    {
+      "src": "",
+      "sizes": "",
+      "type": ""
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone"
+}
