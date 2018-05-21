@@ -9,18 +9,26 @@
   margin: 0 10px;
 }
 
-.commands .commands-mic {
+.commands-mic {
   text-align: center;
   background-color: #f7f7f9;
   padding: 0.7em 0;
 }
-.commands h1 {
+.mic {
+  height: 60px;
+  width: 60px;
+  padding: 15px;
+  border-radius: 50%;
+  background-image: linear-gradient(to left, #00c6fb 0%, #005bea 100%);
+}
+
+.command-header {
   margin: 15px auto 0 auto;
   text-align: center;
-  padding: 15px;
+  padding: 10px;
   background-color: #292928;
   color: #fff;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 2px;
 }
 
