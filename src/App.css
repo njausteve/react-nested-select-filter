@@ -1,4 +1,4 @@
-@import "~antd/dist/antd.css";
+@import '~antd/dist/antd.css';
 
 .App {
   text-align: center;
@@ -42,8 +42,18 @@
   border: 0.25px#bdbdbd;
   border-style: dashed;
 }
+.ant-tabs-extra-content {
+  display: none;
+  cursor: pointer;
+}
 
 @media (min-width: 768px) {
+  .container {
+    margin: 0 20px;
+  }
+  .ant-tabs-extra-content {
+    display: inherit;
+  }
   .category {
     padding-right: 10px;
   }

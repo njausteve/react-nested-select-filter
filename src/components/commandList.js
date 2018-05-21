@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import mic from '../mic.svg';
 import { Row, Col } from 'antd';
 
-export const CommandList = props => {
+const CommandList = props => {
   const commands = props.data;
 
   return (
@@ -14,7 +14,13 @@ export const CommandList = props => {
       <div className="commands-list">
         <Row type="flex" align="middle">
           {commands.map(command => (
-            <Col className="command-col grid-5-col" xs={12} sm={12} md={6}>
+            <Col
+              className="command-col grid-5-col"
+              xs={12}
+              sm={12}
+              md={6}
+              key={`key-${command}`}
+            >
               <CommandListItem key={command} command={command} />
             </Col>
           ))}
@@ -24,6 +30,8 @@ export const CommandList = props => {
   );
 };
 
-export const CommandListItem = props => {
+const CommandListItem = props => {
   return <p> {props.command} </p>;
 };
+
+export default CommandList;

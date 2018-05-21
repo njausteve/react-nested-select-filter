@@ -1,15 +1,12 @@
-import React, { Component } from "react";
-import "./App.css";
-import mic from "./mic.svg";
-import { Tabs, Row, Col, Icon, Select, Form } from "antd";
+import React, { Component } from 'react';
+import './App.css';
+import { Tabs, Icon } from 'antd';
 
-import WakeWords from "./components/wakewords";
-import CommandForm from "./components/commandForm";
-import { CommandList, CommandListItem } from "./components/commandList";
+import WakeWords from './components/wakewords';
+import CommandForm from './components/commandForm';
+import CommandList from './components/commandList';
 
 const TabPane = Tabs.TabPane;
-const FormItem = Form.Item;
-const Option = Select.Option;
 
 class App extends Component {
   state = {
@@ -24,8 +21,15 @@ class App extends Component {
 
   render() {
     const help = (
-      <Icon type="question-circle" style={{ fontSize: "2em", color: "#08c" }} />
+      <Icon type="question-circle" style={{ fontSize: '2em', color: '#08c' }} />
     );
+
+    const size = () => {
+      if (window.innerWidth < 576) {
+        return 'default';
+      }
+      return 'large';
+    };
 
     function callback(key) {}
 
@@ -35,7 +39,8 @@ class App extends Component {
           defaultActiveKey="intent"
           onChange={callback}
           animated={false}
-          size="large"
+          tabBarExtraContent={help}
+          size={size()}
         >
           <TabPane tab="INTENT RECOGNITION" key="intent">
             <CommandForm callback={this.updateList.bind(this)} />

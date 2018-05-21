@@ -56,18 +56,16 @@ class CommandForm extends Component {
     this.filterCommands(language);
   };
 
-  handleCategoryChange = categValue => {
+  handleCategoryChange = category => {
     this.setState({
-      selectedCategory: categValue,
-      selectedLanguage: this.filterLanguages(
-        this.state.categories,
-        categValue
-      )[0].language,
-      languages: this.filterLanguages(this.state.categories, categValue)
+      selectedCategory: category,
+      selectedLanguage: this.filterLanguages(this.state.categories, category)[0]
+        .language,
+      languages: this.filterLanguages(this.state.categories, category)
     });
 
     this.filterCommands(
-      this.filterLanguages(this.state.categories, categValue)[0].language
+      this.filterLanguages(this.state.categories, category)[0].language
     );
   };
 
@@ -80,7 +78,7 @@ class CommandForm extends Component {
       <Form>
         <div className="">
           <Row type="flex" justify="space-between">
-            <Col xs={24} sm={24} md={12} className="category">
+            <Col xs={24} md={12} className="category">
               <FormItem>
                 <Select
                   name="selectedCategory"
@@ -98,7 +96,12 @@ class CommandForm extends Component {
                 </Select>
               </FormItem>
             </Col>
-            <Col xs={24} sm={24} md={12} className="language">
+            <Col
+              xs={24}
+              md={12}
+              className="language"
+              style={{ marginBottom: 20 }}
+            >
               <Select
                 name="selectedLanguage"
                 className="form-control"
