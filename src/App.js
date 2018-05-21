@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
-import { Button, Row, Col, Icon } from 'antd';
-
+import { Tabs, Row, Col, Icon, Select, Form } from "antd";
+const TabPane = Tabs.TabPane;
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 class App extends Component {
   state = {
@@ -9,34 +11,51 @@ class App extends Component {
   };
 
   updateList(params) {
-    console.log(params);
-    this.setState({ data: params[0] });
+    this.setState({
+      data: params[0]
+    });
   }
 
   render() {
-    return (
-      <div className="container">
-     
-        <CommandForm callback={this.updateList.bind(this)} />
-        <CommandList data={this.state.data} />
-      </div>
+    const help = (
+      <Icon type="question-circle" style={{ fontSize: "2em", color: "#08c" }} />
     );
+
+    function callback(key) {}
+
+    return <div className="container">
+        <Tabs defaultActiveKey="intent"  onChange={callback} animated={false} size="normal">
+          <TabPane tab="INTENT RECOGNITION" key="intent">
+            <CommandForm callback={this.updateList.bind(this)} />
+            <CommandList data={this.state.data} />
+          </TabPane>
+          <TabPane tab="WAKEWORDS" key="wakewords" />
+        </Tabs>
+      </div>;
   }
 }
 
 const CommandList = props => {
   const commands = props.data;
 
-  return (
-    <div>
-      <Button type="primary">Button</Button>
-      <ul>{commands.map(command => <CommandListItem key={command} command={command} />)}</ul>
-    </div>
-  );
+  return <div className="commands">
+      <div className="commands-mic">
+        <Icon type="question-circle" style={{ fontSize: "5em", color: "#08c" }} />
+      </div>
+      <h1>COMMANDS</h1>
+      <div className="commands-list">
+        <Row type="flex" align="middle">
+        {commands.map(command => <Col className="command-col grid-5-col" xs={12} sm={12} md={6 
+        }>
+              <CommandListItem key={command} command={command} />
+            </Col>)}
+        </Row>
+      </div>
+    </div>;
 };
 
 const CommandListItem = props => {
-  return <li >{props.command}</li>;
+  return <p> {props.command} </p>;
 };
 
 class CommandForm extends Component {
@@ -57,7 +76,6 @@ class CommandForm extends Component {
       uniqueCategories,
       defaultCategory
     )[0].language;
-
 
     this.setState({
       categories: uniqueCategories,
@@ -87,85 +105,90 @@ class CommandForm extends Component {
     this.props.callback(filteredCommands);
   };
 
-  handleLanguageChange = event => {
-    this.setState({ selectedLanguage: event.target.value });
+  handleLanguageChange = language => {
+    this.setState({ selectedLanguage: language });
 
-    this.filterCommands(event.target.value);
+    this.filterCommands(language);
   };
 
-  handleCategoryChange = event => {
+  handleCategoryChange = categValue => {
     this.setState({
-      selectedCategory: event.target.value,
+      selectedCategory: categValue,
       selectedLanguage: this.filterLanguages(
         this.state.categories,
-        event.target.value
+        categValue
       )[0].language,
-      languages: this.filterLanguages(this.state.categories, event.target.value)
+      languages: this.filterLanguages(this.state.categories, categValue)
     });
 
     this.filterCommands(
-      this.filterLanguages(this.state.categories, event.target.value)[0]
-        .language
+      this.filterLanguages(this.state.categories, categValue)[0].language
     );
   };
 
   render() {
     const { selectedCategory, selectedLanguage } = this.state;
 
-    return (
-      <form>
-        <div className="">
+    console.log(selectedCategory, selectedLanguage, this.state.languages);
 
-          <Row >
-            <Col span={12}>
-              <select
-                name="selectedCategory"
-                className="form-control"
-                defaultValue={selectedCategory}
-                onChange={this.handleCategoryChange}
-              >
-                {this.state.categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-                ))}
-              </select>
+    return (
+      <Form>
+        <div className="">
+          <Row type="flex" justify="space-between">
+            <Col xs={24} sm={24} md={12} className="category">
+              <FormItem>
+                <Select
+                  name="selectedCategory"
+                  className="form-control"
+                  size="large"
+                  defaultValue={selectedCategory}
+                  style={{ width: "100%" }}
+                  onChange={this.handleCategoryChange}
+                >
+                  {this.state.categories.map(category => (
+                    <Option key={category} value={category}>
+                      {category}
+                    </Option>
+                  ))}
+                </Select>
+              </FormItem>
             </Col>
-            <Col span={12}>
-              <select
+            <Col xs={24} sm={24} md={12} className="language">
+              <Select
                 name="selectedLanguage"
                 className="form-control"
+                size="large"
                 defaultValue={selectedLanguage}
+                style={{ width: "100%" }}
                 onChange={this.handleLanguageChange}
               >
                 {this.state.languages.map(value => (
-                  <option key={value.language} value={value.language}>{value.language}</option>
+                  <Option key={value.language} value={value.language}>
+                    {value.language}
+                  </Option>
                 ))}
-              </select>
-
- <Icon type="question-circle" style={{ fontSize: 30, color: '#137ffd' }}/>
+              </Select>
             </Col>
-           
           </Row>
-
         </div>
-      </form>
+      </Form>
     );
   }
 }
 
 const Dataset = [
   {
-    category: "generic",
+    category: "Generic",
     language: "English",
     commands: [
-      "play",
-      "music",
+      "play music",
       "Pause",
       "Mute",
       "Next song",
-      "Turn on the tv",
+      "Turn on the tv now",
       "Lower temperature",
       "Raise temperature",
-      "Set an alarm for 8 am",
+      "Set an alarm",
       "Turn on the lights",
       "Turn off the lights",
       "What time is it?",
@@ -173,14 +196,12 @@ const Dataset = [
       "Close curtains",
       "Tune In",
       "traffic information",
-      "Turn on home security",
-      "Why is the maintenance light on ?",
+      "Turn on security",
       "koreean",
       "Go to speakers",
       "Go to Thermostat",
       "Go to Home Hub",
       "Go to menu",
-      "Go to personalization",
       "Change language",
       "Volume up",
       "Open the gas tank",
@@ -188,30 +209,29 @@ const Dataset = [
       "Skip",
       "unmute",
       "Volume down",
-      "Off",
       "play some rock",
       "Go to sleep",
       "Play some jazz",
-      "Turn off the TV",
-      "How long have i run?"
+      "Turn off the TV"
+    
     ]
   },
   {
-    category: "generic",
+    category: "Generic",
     language: "Korean",
     commands: [
       "조명 끄기",
       "다음 노래",
-      "내가 얼마나 오래 뛰었 니?",
+      "내가 얼마나",
       "온도 상승",
       "한국어",
       "묵자",
-      "오전 8시에 알람 설정",
+      "오전 설정",
       "이력서",
       "중지",
       "튜닝",
       "교통 정보",
-      "맞춤 설정으로 이동",
+      "맞춤 설정으로",
       "낮은 온도",
       "버킷",
       "불을 켜다",
@@ -236,11 +256,11 @@ const Dataset = [
       "떨어져서",
       "놀이",
       "가스 탱크 열어 라.",
-      "유지 관리 표시등이 켜져있는 이유는 무엇입니까?"
+      "유지 관리 표시등이 "
     ]
   },
   {
-    category: "generic",
+    category: "Generic",
     language: "German",
     commands: [
       "Wiedergabe",
@@ -250,15 +270,15 @@ const Dataset = [
       "Fernseher einschalten",
       "Temperatur senken",
       "Temperatur erhohen",
-      "SteIle den Wecker auf 8 Uhr",
+      "SteIle den ",
       "Licht aus",
       "Licht an",
       "Wie spat ist es?",
       "Offne die VorhAnge",
       "Vorhange schlieBen",
-      "Verkehrsmeldungen einbienden",
-      "Homesecurity einschatten",
-      "Warum Ieuchtet das Wartungsiampchen ?",
+      "Verkehrsmeldungen",
+      "Homesecurity",
+      "Warum Ieuchtet ?",
       "Lauter",
       "Offne den Tank",
       "Weiter",
@@ -321,7 +341,5 @@ const Dataset = [
     commands: []
   }
 ];
-
-
 
 export default App;

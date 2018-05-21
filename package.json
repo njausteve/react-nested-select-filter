@@ -1,7 +1,10 @@
 {
   "name": "intent-wakework-dashboard",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "keywords": ["React.js", "ant.design", "javascript", "ES6"],
+  "author": "@njausteve",
+  "license": "ISC",
   "dependencies": {
     "antd": "^3.5.3",
     "react": "^16.3.2",
