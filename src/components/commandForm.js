@@ -72,8 +72,6 @@ class CommandForm extends Component {
   render() {
     const { selectedCategory, selectedLanguage } = this.state;
 
-    console.log(selectedCategory, selectedLanguage, this.state.languages);
-
     return (
       <Form>
         <div className="">
@@ -84,6 +82,7 @@ class CommandForm extends Component {
                   name="selectedCategory"
                   className="form-control"
                   size="large"
+                  key={selectedCategory}
                   defaultValue={selectedCategory}
                   style={{ width: '100%' }}
                   onChange={this.handleCategoryChange}
@@ -106,6 +105,7 @@ class CommandForm extends Component {
                 name="selectedLanguage"
                 className="form-control"
                 size="large"
+                key={selectedLanguage}
                 defaultValue={selectedLanguage}
                 style={{ width: '100%' }}
                 onChange={this.handleLanguageChange}
